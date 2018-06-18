@@ -3,19 +3,25 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"github.com/sgeffken/cdays-go/internal/routing"
 )
 
-
 func main() {
-	log.Print("The application is starting...")
-	
-	http.HandleFunc("/", rootHandler())
-
-	log.Fatal(http.ListenAndServe(":8000", nil))
-}
-
-func rootHandler() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello!"))			
-	}
+	log.Printf("The application is starting and listening to port 8000")
+	/*
+		version.Release = "1"
+		version.BuildTime = "now"
+		version.Commit = "00000"
+		log.Printf("The application is starting, version is %s, build time is %s, commit is %s...", version.Release, version.BuildTime, version.Commit)
+	*/
+	/*
+		port := os.Getenv("PORT")
+		if port == "" {
+			port = "8000"
+			//		log.Fatal("No port provided")
+		}
+	*/
+	r := routing.NewDiagnosticsRouter()
+	log.Fatal(http.ListenAndServe(":8000", r))
 }
